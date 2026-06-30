@@ -436,9 +436,8 @@ function render_project_wise_mr_page(root) {
 		);
 	}
 
-	function MappingRow({ row, canManage, toggling, onEdit, onToggle }) {
+	function MappingRow({ row, canManage, onEdit }) {
 		const enabled = !!row.enabled;
-		const busy = toggling === row.name;
 		return e(
 			"tr",
 			null,
@@ -461,18 +460,6 @@ function render_project_wise_mr_page(root) {
 						},
 						e(Icon, { name: "edit" }),
 						__("Edit")
-					),
-					e(
-						"button",
-						{
-							className: `project-wise-mr-button project-wise-mr-button-ghost ${
-								enabled ? "project-wise-mr-button-danger" : "project-wise-mr-button-success"
-							}`,
-							disabled: !canManage || busy,
-							onClick: () => onToggle(row),
-						},
-						busy ? e("span", { className: "project-wise-mr-spin" }, e(Icon, { name: "refresh" })) : e(Icon, { name: enabled ? "block" : "check" }),
-						enabled ? __("Disable") : __("Enable")
 					)
 				)
 			)
