@@ -53,7 +53,7 @@ function load_project_wise_mr_script(src) {
 
 function render_project_wise_mr_page(root) {
 	const e = React.createElement;
-	const api_method = (method) => `project_wise_mr_approval.api.${method}`;
+	const api_method = (method) => `project_wise_mr_approval.page_api.${method}`;
 
 	function Icon({ name }) {
 		const icons = {
