@@ -205,7 +205,8 @@ function render_project_wise_mr_page(root) {
 					e(
 						"div",
 						null,
-						e("h1", { className: "project-wise-mr-title" }, __("Project Wise MR Approval")),
+						e("div", { className: "project-wise-mr-kicker" }, __("PROCUREMENT")),
+						e("h1", { className: "project-wise-mr-title" }, __("Project approvers")),
 						e(
 							"p",
 							{ className: "project-wise-mr-subtitle" },
@@ -223,7 +224,7 @@ function render_project_wise_mr_page(root) {
 								onClick: openAdd,
 							},
 							e(Icon, { name: "plus" }),
-							__("Add Approver")
+							__("New approver")
 						)
 					)
 				),
@@ -246,6 +247,7 @@ function render_project_wise_mr_page(root) {
 					e(
 						"div",
 						{ className: "project-wise-mr-toolbar-left" },
+						e("div", { className: "project-wise-mr-list-title" }, __("All mappings"), " ", e("span", null, rows.length)),
 						e("input", {
 							className: "project-wise-mr-input",
 							placeholder: __("Search project or user"),
@@ -362,7 +364,7 @@ function render_project_wise_mr_page(root) {
 							"tr",
 							null,
 							e("th", null, __("Project")),
-							e("th", null, __("Approver User")),
+							e("th", null, __("Approver")),
 							e("th", null, __("Status")),
 							e("th", null, __("Last Modified")),
 							e("th", { className: "project-wise-mr-table-actions" }, __("Actions"))
@@ -440,8 +442,8 @@ function render_project_wise_mr_page(root) {
 		return e(
 			"tr",
 			null,
-			e("td", null, row.project),
-			e("td", null, row.approver_user),
+			e("td", { className: "project-wise-mr-link-cell" }, row.project),
+			e("td", { className: "project-wise-mr-user-cell" }, row.approver_user),
 			e("td", null, e(StatusBadge, { enabled })),
 			e("td", { className: "project-wise-mr-muted" }, frappe.datetime.str_to_user(row.modified)),
 			e(
