@@ -207,6 +207,12 @@ def _get_workflow_action(doc):
 
 
 def validate_project_wise_workflow(doc, method=None):
+	# This app governs Material Request approval ONLY. Other doctypes (e.g. Purchase
+	# Order, which also has a "Reject" action and carries custom_project_name) must
+	# never be caught by this project-approval check.
+	if getattr(doc, "doctype", None) != "Material Request":
+		return
+
 	action = _get_workflow_action(doc)
 	if action not in WORKFLOW_ACTIONS:
 		return
