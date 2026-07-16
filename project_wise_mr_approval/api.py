@@ -325,6 +325,32 @@ def ensure_workflow_transitions():
 		)
 		changed = True
 
+	# A rejected Material Request must stay reopenable (Rejected -> Draft) so it
+	# can be corrected and resubmitted. The transition ships with procureflow's
+	# workflow fixture; re-ensure it here too so no migrate ordering can drop it.
+	# Unconditioned: reopening only parks the document back in Draft — the
+	# project-wise routing above still applies when it is re-sent for approval.
+	reopen_exists = any(
+		transition.state == "Rejected"
+		and transition.action == "Reopen"
+		and transition.next_state == "Draft"
+		for transition in workflow.transitions
+	)
+	if not reopen_exists:
+		workflow.append(
+			"transitions",
+			{
+				"state": "Rejected",
+				"action": "Reopen",
+				"next_state": "Draft",
+				"allowed": role,
+				"allow_self_approval": 1,
+				"send_email_to_creator": 0,
+				"workflow_builder_id": "action-reopen",
+			},
+		)
+		changed = True
+
 	if changed:
 		workflow.save(ignore_permissions=True)
 		frappe.db.commit()
